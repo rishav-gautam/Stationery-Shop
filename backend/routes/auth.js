@@ -30,5 +30,15 @@ router.post('/login',
 // Get profile
 router.get('/profile', authenticate, getProfile);
 
+router.get('/test-db', async (req, res) => {
+    try {
+      const [rows] = await pool.execute('SELECT 1 + 1 AS result');
+      res.json({ db: 'connected', result: rows[0].result });
+    } catch (err) {
+      res.status(500).json({ db: 'failed', error: err.message });
+    }
+  });
+  
+
 module.exports = router;
 
